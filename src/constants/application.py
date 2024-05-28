@@ -31,7 +31,7 @@ COMMAND_MESSAGES = {
     'continue_or_show_list': 'أكمل باستخدام نفس الأمر أو انتقل إلى قائمة الأوامر 👇',
 }
 
-MESSAGE_LIMIT = 4096
+HADITH_MATN_LIMIT = 3500
 
 REPLY_TEMPLATES = {
     'tafrigh': TAFRIGH_REPLY_TEMPLATE,

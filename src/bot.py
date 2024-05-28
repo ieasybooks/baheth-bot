@@ -8,7 +8,7 @@ from requests import get
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackQueryHandler, ContextTypes, ApplicationBuilder, CommandHandler, MessageHandler, filters
 
-from constants import COMMAND_MESSAGES, MESSAGE_LIMIT, REPLY_TEMPLATES, RESULTS_LIMIT
+from constants import COMMAND_MESSAGES, HADITH_MATN_LIMIT, REPLY_TEMPLATES, RESULTS_LIMIT
 
 
 class Bot:
@@ -252,7 +252,7 @@ class Bot:
                     REPLY_TEMPLATES['hadiths'].format(
                         hadith['book']['title'],
                         hadith.get('isnad', ''),
-                        hadith['matn'][:MESSAGE_LIMIT],
+                        hadith['matn'][:HADITH_MATN_LIMIT],
                         hadith['grade'],
                         hadith['breadcrumb'],
                         hadith['link']
