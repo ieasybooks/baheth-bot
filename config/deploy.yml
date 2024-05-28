@@ -1,0 +1,43 @@
+service: baheth-bot
+
+image: ieasybooks/baheth-bot
+
+registry:
+  username: ieasybooks
+
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+servers:
+  web:
+    hosts:
+      - 109.199.123.26
+    options:
+      network: "kamal_network"
+
+traefik:
+  options:
+    network: "kamal_network"
+
+# Remember to run `kamal env push` after making changes!
+env:
+  secret:
+    - TELEGRAM_BOT_TOKEN
+
+    - BAHETH_API_BASE_URL
+    - MEDIA_ENDPOINT
+    - TRANSCRIPTIONS_SEARCH_ENDPOINT
+    - HADITHS_SEARCH_ENDPOINT
+    - SHAMELA_SEMANTIC_SEARCH_ENDPOINT
+    - BAHETH_API_TOKEN
+
+    - TURATH_API_BASE_URL
+    - SHAMELA_CLASSICAL_SEARCH_ENDPOINT
+
+healthcheck:
+  cmd: echo "I'm ok"
+
+builder:
+  remote:
+    arch: amd64
+    host: ssh://root@109.199.123.26
