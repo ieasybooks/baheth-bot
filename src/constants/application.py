@@ -2,8 +2,10 @@ from constants.messages import (
     START_COMMAND_MESSAGE,
     TAFRIGH_COMMAND_MESSAGE,
     TRANSCRIPTIONS_COMMAND_MESSAGE,
-    HADITHS_COMMAND_MESSAGE,
-    SHAMELA_COMMAND_MESSAGE,
+    HADITHS_SEMANTIC_COMMAND_MESSAGE,
+    SHAMELA_SEMANTIC_COMMAND_MESSAGE,
+    HADITHS_CLASSICAL_COMMAND_MESSAGE,
+    SHAMELA_CLASSICAL_COMMAND_MESSAGE,
 )
 
 from constants.templates import (
@@ -18,11 +20,13 @@ COMMAND_MESSAGES = {
     'start': START_COMMAND_MESSAGE,
     'tafrigh': TAFRIGH_COMMAND_MESSAGE,
     'transcriptions': TRANSCRIPTIONS_COMMAND_MESSAGE,
-    'hadiths': HADITHS_COMMAND_MESSAGE,
-    'shamela': SHAMELA_COMMAND_MESSAGE,
+    'hadiths_semantic': HADITHS_SEMANTIC_COMMAND_MESSAGE,
+    'shamela_semantic': SHAMELA_SEMANTIC_COMMAND_MESSAGE,
+    'hadiths_classical': HADITHS_CLASSICAL_COMMAND_MESSAGE,
+    'shamela_classical': SHAMELA_CLASSICAL_COMMAND_MESSAGE,
     'no_command_selected': 'اختَر أمرًا من الأوامر الموجودة في القائمة 👇',
     'medium_not_found': 'لم يُعثَر على المادة المطلوبة في قاعدة بيانات باحث 🙁',
-    'something_went_wrong': 'حدث خطأ ما، يُرجى المحاولة لاحقا.',
+    'something_went_wrong': 'حدث خطأ ما، يُرجى المحاولة مرةً أخرى.',
     'wait_for_search': 'جارٍ البحث، إنتظر قليلًا ⌛',
 }
 
