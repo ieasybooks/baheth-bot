@@ -63,7 +63,7 @@ class Bot:
         self.back_to_list = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton('الرجوع إلى القائمة', callback_data='back_to_list'),
+                    InlineKeyboardButton('قائمة الأوامر', callback_data='back_to_list'),
                 ],
             ],
         )
@@ -164,7 +164,7 @@ class Bot:
             show_commands_list = False
 
         if show_commands_list:
-            await update.message.reply_text(COMMAND_MESSAGES['no_command_selected'], reply_markup=self.commands_list)
+            await update.message.reply_text(COMMAND_MESSAGES['continue_or_show_list'], reply_markup=self.back_to_list)
 
 
     async def __command_reply_handler(self, update: Update, command: str) -> None:
@@ -252,11 +252,11 @@ class Bot:
                     REPLY_TEMPLATES['hadiths'].format(
                         hadith['book']['title'],
                         hadith.get('isnad', ''),
-                        hadith['matn'],
+                        hadith['matn'][:MESSAGE_LIMIT],
                         hadith['grade'],
                         hadith['breadcrumb'],
                         hadith['link']
-                    )[:MESSAGE_LIMIT],
+                    ),
                     disable_web_page_preview=True,
                 )
         else:
