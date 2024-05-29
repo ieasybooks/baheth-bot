@@ -1,21 +1,36 @@
-import os
+from telegram.ext import CallbackQueryHandler, ApplicationBuilder, CommandHandler, MessageHandler, filters
 
-from dotenv import load_dotenv
+from constants import TELEGRAM_BOT_TOKEN
 
-from bot import Bot
+from handlers import (
+    start_handler,
+    tafrigh_handler,
+    transcriptions_handler,
+    hadiths_semantic_handler,
+    shamela_semantic_handler,
+    hadiths_classical_handler,
+    shamela_classical_handler,
+    text_handler,
+    button_handler,
+)
 
 
-load_dotenv()
+def main():
+    app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler('start', start_handler))
+    app.add_handler(CommandHandler('tafrigh', tafrigh_handler))
+    app.add_handler(CommandHandler('transcriptions', transcriptions_handler))
+    app.add_handler(CommandHandler('hadiths_semantic', hadiths_semantic_handler))
+    app.add_handler(CommandHandler('shamela_semantic', shamela_semantic_handler))
+    app.add_handler(CommandHandler('hadiths_classical', hadiths_classical_handler))
+    app.add_handler(CommandHandler('shamela_classical', shamela_classical_handler))
+
+    app.add_handler(MessageHandler(filters.TEXT, text_handler))
+    app.add_handler(CallbackQueryHandler(button_handler))
+
+    app.run_polling()
 
 
-Bot(
-    os.getenv('TELEGRAM_BOT_TOKEN'),
-    os.getenv('BAHETH_API_BASE_URL'),
-    os.getenv('MEDIA_ENDPOINT'),
-    os.getenv('TRANSCRIPTIONS_SEARCH_ENDPOINT'),
-    os.getenv('HADITHS_SEARCH_ENDPOINT'),
-    os.getenv('SHAMELA_SEMANTIC_SEARCH_ENDPOINT'),
-    os.getenv('BAHETH_API_TOKEN'),
-    os.getenv('TURATH_API_BASE_URL'),
-    os.getenv('SHAMELA_CLASSICAL_SEARCH_ENDPOINT'),
-).run()
+if __name__ == '__main__':
+    main()

@@ -1,12 +1,12 @@
 TAFRIGH_REPLY_TEMPLATE = """
-<b>{}</b>
+🎞️ <b>{}</b>
 
 <a href="{}">رابط المقطع على باحث</a>
 <a href="{}">رابط ملف التفريغ</a>
 """
 
 TRANSCRIPTIONS_REPLY_TEMPLATE = """
-<b>{}</b>
+🎞️ <b>{}</b>
 {}
 {}
 
@@ -17,7 +17,7 @@ TRANSCRIPTIONS_REPLY_TEMPLATE = """
 """
 
 HADITHS_REPLY_TEMPLATE = """
-<b>{}</b>
+📖 <b>{}</b>
 
 {} {}
 ({})
@@ -28,7 +28,7 @@ HADITHS_REPLY_TEMPLATE = """
 """
 
 SHAMELA_REPLY_TEMPLATE = """
-<b>{}</b>
+📖 <b>{}</b>
 {}
 
 {}:

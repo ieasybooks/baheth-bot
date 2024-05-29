@@ -1,3 +1,19 @@
+from constants.environment import (
+    TELEGRAM_BOT_TOKEN,
+
+    BAHETH_API_BASE_URL,
+    MEDIA_ENDPOINT,
+    TRANSCRIPTIONS_SEARCH_ENDPOINT,
+    HADITHS_SEARCH_ENDPOINT,
+    SHAMELA_SEMANTIC_SEARCH_ENDPOINT,
+    BAHETH_API_TOKEN,
+
+    TURATH_API_BASE_URL,
+    SHAMELA_CLASSICAL_SEARCH_ENDPOINT,
+)
+
+from constants.markups import BACK_TO_LIST_MARKUP, COMMANDS_MARKUP, SHOW_MORE_MARKUP
+
 from constants.messages import (
     START_COMMAND_MESSAGE,
     TAFRIGH_COMMAND_MESSAGE,
@@ -29,6 +45,8 @@ COMMAND_MESSAGES = {
     'something_went_wrong': 'حدث خطأ ما، يُرجى المحاولة مرةً أخرى.',
     'wait_for_search': 'جارٍ البحث، إنتظر قليلًا ⌛',
     'continue_or_show_list': 'أكمل باستخدام نفس الأمر أو انتقل إلى قائمة الأوامر 👇',
+    'show_more_continue_or_show_list': 'اعرض المزيد من النتائج أو أكمل باستخدام نفس الأمر أو انتقل إلى قائمة الأوامر 👇',
+    'getting_more_results': 'جارٍ جلب المزيد من النتائج ⌛',
 }
 
 HADITH_MATN_LIMIT = 3500
