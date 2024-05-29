@@ -100,6 +100,7 @@ async def hadiths_processor(search_type: str, context: ContextTypes.DEFAULT_TYPE
         params={
             'token': BAHETH_API_TOKEN,
             'query': context.user_data['message'],
+            'search_type': search_type,
         },
         timeout=10,
     )
