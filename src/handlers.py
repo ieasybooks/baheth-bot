@@ -4,6 +4,8 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from constants import (
+    ADMIN_USER_IDS,
+
     COMMAND_MESSAGES,
 
     BACK_TO_LIST_MARKUP,
@@ -20,40 +22,94 @@ from processors import (
 )
 
 
-async def start_handler(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
+async def enable_bot_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if update.message.from_user.id in ADMIN_USER_IDS:
+        context.bot_data['enabled'] = True
+
+        await update.message.reply_text(COMMAND_MESSAGES['bot_enabled_successfully'], reply_markup=BACK_TO_LIST_MARKUP)
+
+
+async def disable_bot_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if update.message.from_user.id in ADMIN_USER_IDS:
+        context.bot_data['enabled'] = False
+
+        await update.message.reply_text(COMMAND_MESSAGES['bot_disabled_successfully'], reply_markup=BACK_TO_LIST_MARKUP)
+
+
+async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await update.message.reply_html(COMMAND_MESSAGES['start'], reply_markup=COMMANDS_MARKUP)
 
 
 async def tafrigh_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'tafrigh')
 
 
 async def transcriptions_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'transcriptions')
 
 
 async def hadiths_semantic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'hadiths_semantic')
 
 
 async def shamela_semantic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'shamela_semantic')
 
 
 async def hadiths_classical_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'hadiths_classical')
 
 
 async def shamela_classical_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await command_reply_handler(update, context, 'shamela_classical')
 
 
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not context.bot_data['enabled']:
+        await update.message.reply_text(COMMAND_MESSAGES['bot_is_not_enabled'], reply_markup=BACK_TO_LIST_MARKUP)
+        return
+
     await commands_handler(update, context, show_more_button=True)
 
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
+
+    if not context.bot_data['enabled']:
+        await context.bot.send_message(
+            chat_id=query.from_user.id,
+            text=COMMAND_MESSAGES['bot_is_not_enabled'],
+            reply_markup=BACK_TO_LIST_MARKUP,
+        )
+        return
 
     # CallbackQueries need to be answered, even if no notification to the user is needed
     # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery

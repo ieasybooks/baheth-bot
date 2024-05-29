@@ -7,6 +7,7 @@ load_dotenv()
 
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+ADMIN_USER_IDS = list(map(int, os.getenv('ADMIN_USER_IDS').split(',')))
 
 BAHETH_API_BASE_URL = os.getenv('BAHETH_API_BASE_URL')
 MEDIA_ENDPOINT = os.getenv('MEDIA_ENDPOINT')
