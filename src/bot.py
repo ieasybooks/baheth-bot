@@ -29,8 +29,6 @@ class Bot:
     ) -> Self:
         super().__init__()
 
-        self.users = dict()
-
         self.telegram_bot_token = telegram_bot_token
 
         self.baheth_api_base_url = baheth_api_base_url
@@ -86,43 +84,43 @@ class Bot:
         app.run_polling()
 
 
-    async def start(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        self.users[update.message.from_user.id] = 'start'
+    async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        context.user_data['command'] = 'start'
         await update.message.reply_html(COMMAND_MESSAGES['start'], reply_markup=self.commands_list)
 
 
-    async def tafrigh(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'tafrigh')
+    async def tafrigh(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'tafrigh')
 
 
-    async def transcriptions(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'transcriptions')
+    async def transcriptions(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'transcriptions')
 
 
-    async def hadiths_semantic(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'hadiths_semantic')
+    async def hadiths_semantic(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'hadiths_semantic')
 
 
-    async def shamela_semantic(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'shamela_semantic')
+    async def shamela_semantic(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'shamela_semantic')
 
 
-    async def hadiths_classical(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'hadiths_classical')
+    async def hadiths_classical(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'hadiths_classical')
 
 
-    async def shamela_classical(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        await self.__command_reply_handler(update, 'shamela_classical')
+    async def shamela_classical(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        await self.__command_reply_handler(update, context, 'shamela_classical')
 
 
-    async def button(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
+    async def button(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         query = update.callback_query
 
         # CallbackQueries need to be answered, even if no notification to the user is needed
         # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
         await query.answer()
 
-        self.users[query.from_user.id] = query.data
+        context.user_data['command'] = query.data
 
         if query.data == 'back_to_list':
             await query.edit_message_text(COMMAND_MESSAGES['start'], reply_markup=self.commands_list, parse_mode='HTML')
@@ -134,12 +132,10 @@ class Bot:
             )
 
 
-    async def text_handler(self, update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-        user_id = update.message.from_user.id
-
+    async def text_handler(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         show_commands_list = True
 
-        if (command := self.users.get(user_id)):
+        if (command := context.user_data.get('command', None)):
             match command:
                 case 'tafrigh':
                     await self.__tafrigh_handler(update)
@@ -167,8 +163,8 @@ class Bot:
             await update.message.reply_text(COMMAND_MESSAGES['continue_or_show_list'], reply_markup=self.back_to_list)
 
 
-    async def __command_reply_handler(self, update: Update, command: str) -> None:
-        self.users[update.message.from_user.id] = command
+    async def __command_reply_handler(self, update: Update, context: ContextTypes.DEFAULT_TYPE, command: str) -> None:
+        context.user_data['command'] = command
 
         await update.message.reply_html(COMMAND_MESSAGES[command], reply_markup=self.back_to_list)
 
