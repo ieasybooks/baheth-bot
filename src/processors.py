@@ -7,7 +7,7 @@ from requests import get
 from telegram import Update
 from telegram.ext import ContextTypes
 from youtube_transcript_api import NoTranscriptFound, YouTubeTranscriptApi
-from youtube_transcript_api.formatters import SRTFormatter
+from youtube_transcript_api.formatters import TextFormatter
 
 from constants import (
     COMMAND_MESSAGES,
@@ -47,8 +47,8 @@ async def tafrigh_processor(update: Update) -> bool:
             await update.message.reply_text(COMMAND_MESSAGES['transcription_fetched_from_youtube'])
 
             await update.message.reply_document(
-                document=bytes(SRTFormatter().format_transcript(transcription), 'utf-8'),
-                filename=f'{video_id}.srt',
+                document=bytes(TextFormatter().format_transcript(transcription), 'utf-8'),
+                filename=f'{video_id}.txt',
             )
         except NoTranscriptFound:
             await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
