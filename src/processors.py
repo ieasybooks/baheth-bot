@@ -6,6 +6,8 @@ from typing import Callable
 from requests import get
 from telegram import Update
 from telegram.ext import ContextTypes
+from youtube_transcript_api import NoTranscriptFound, YouTubeTranscriptApi
+from youtube_transcript_api.formatters import SRTFormatter
 
 from constants import (
     COMMAND_MESSAGES,
@@ -24,7 +26,7 @@ from constants import (
     SHAMELA_CLASSICAL_SEARCH_ENDPOINT,
 )
 
-from utils import remove_html_tags
+from utils import remove_html_tags, video_id_from_link
 
 
 async def tafrigh_processor(update: Update) -> bool:
@@ -38,7 +40,18 @@ async def tafrigh_processor(update: Update) -> bool:
     )
 
     if response.status_code == 404:
-        await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
+        try:
+            video_id = video_id_from_link(update.message.text)
+            transcription = YouTubeTranscriptApi.list_transcripts(video_id).find_transcript(['ar']).fetch()
+
+            await update.message.reply_text(COMMAND_MESSAGES['transcription_fetched_from_youtube'])
+
+            await update.message.reply_document(
+                document=bytes(SRTFormatter().format_transcript(transcription), 'utf-8'),
+                filename=f'{video_id}.srt',
+            )
+        except NoTranscriptFound:
+            await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
     elif response.status_code == 200:
         response = response.json()
 

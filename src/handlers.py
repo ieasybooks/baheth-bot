@@ -158,17 +158,10 @@ async def commands_handler(
             context.user_data['results_start'] = 0
             context.user_data['message'] = update.message.text
 
-        if command in [
-            'transcriptions',
-            'hadiths_semantic',
-            'shamela_semantic',
-            'hadiths_classical',
-            'shamela_classical',
-        ]:
-            if show_more_results:
-                await reply_method(text=COMMAND_MESSAGES['getting_more_results'])
-            else:
-                await reply_method(text=COMMAND_MESSAGES['wait_for_search'])
+        if show_more_results:
+            await reply_method(text=COMMAND_MESSAGES['getting_more_results'])
+        else:
+            await reply_method(text=COMMAND_MESSAGES['wait_for_search'])
 
         match command:
             case 'tafrigh':
