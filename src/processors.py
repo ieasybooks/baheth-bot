@@ -1,16 +1,13 @@
-import contextlib
-import io
 import json
-import re
 
 from datetime import timedelta
 from typing import Callable
 
-import download_youtube_subtitle.main as download_youtube_subtitle
-
 from requests import get
 from telegram import Update
 from telegram.ext import ContextTypes
+from youtube_transcript_api import NoTranscriptFound, YouTubeTranscriptApi
+from youtube_transcript_api.formatters import TextFormatter
 
 from constants import (
     COMMAND_MESSAGES,
@@ -45,17 +42,15 @@ async def tafrigh_processor(update: Update) -> bool:
     if response.status_code == 404:
         try:
             video_id = video_id_from_link(update.message.text)
+            transcription = YouTubeTranscriptApi.list_transcripts(video_id).find_transcript(['ar']).fetch()
 
-            with contextlib.redirect_stdout(io.StringIO()) as captured_output:
-                download_youtube_subtitle.main(videoID=video_id, save_to_file=False, to_json=True)
-
-            output = json.loads(re.sub(r'^INFO.*\n?', '', captured_output.getvalue(), flags=re.MULTILINE))
+            await update.message.reply_text(COMMAND_MESSAGES['transcription_fetched_from_youtube'])
 
             await update.message.reply_document(
-                document=bytes(''.join([element['text'] for element in output['original']]), 'utf-8'),
+                document=bytes(TextFormatter().format_transcript(transcription), 'utf-8'),
                 filename=f'{video_id}.txt',
             )
-        except:
+        except NoTranscriptFound:
             await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
     elif response.status_code == 200:
         response = response.json()

@@ -1,4 +1,4 @@
-download-youtube-subtitle==3.0.2
-python-dotenv==1.0.1
-python-telegram-bot==21.3
-requests==2.32.3
+python-dotenv
+python-telegram-bot
+requests
+youtube-transcript-api
