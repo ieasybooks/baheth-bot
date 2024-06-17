@@ -6,7 +6,7 @@ from typing import Callable
 from requests import get
 from telegram import Update
 from telegram.ext import ContextTypes
-from youtube_transcript_api import NoTranscriptFound, YouTubeTranscriptApi
+from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 
 from constants import (
