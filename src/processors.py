@@ -50,7 +50,7 @@ async def tafrigh_processor(update: Update) -> bool:
                 document=bytes(TextFormatter().format_transcript(transcription), 'utf-8'),
                 filename=f'{video_id}.txt',
             )
-        except NoTranscriptFound:
+        except:
             await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
     elif response.status_code == 200:
         response = response.json()
