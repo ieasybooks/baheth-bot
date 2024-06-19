@@ -209,6 +209,7 @@ async def try_tafrigh_from_youtube(update: Update) -> None:
 
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
     options.add_experimental_option('prefs', {'download.default_directory': os.path.abspath(folder_name)})
 
     browser = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=options)
