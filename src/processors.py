@@ -236,7 +236,9 @@ async def try_tafrigh_from_youtube(update: Update) -> None:
       )
     else:
       await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
-  except:
+  except Exception as e:
+    print(e)
+
     await update.message.reply_text(COMMAND_MESSAGES['medium_not_found'])
   finally:
     os.remove(os.path.join(folder_name, os.listdir(folder_name)[0]))
