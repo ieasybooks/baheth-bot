@@ -1,3 +1,10 @@
+FROM python:3.11.9 as requirements-stage
+
+WORKDIR /tmp
+RUN pip install poetry
+COPY ./pyproject.toml ./poetry.lock* /tmp/
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+
 FROM python:3.11.9-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,10 +30,11 @@ RUN CHROMEDRIVER_VERSION=$(curl https://googlechromelabs.github.io/chrome-for-te
     && rm -rf ~/chromedriver-linux64 \
     && chmod +x /usr/bin/chromedriver
 
-WORKDIR /usr/src/app
+WORKDIR /code
 
-COPY . .
+COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./ /code/
 
 CMD ["python", "-u", "./src/main.py"]
