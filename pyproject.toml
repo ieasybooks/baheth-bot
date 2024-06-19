@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "baheth-bot"
+version = "0.1.0"
+description = ""
+authors = ["EasyBooks <easybooksdev@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+  {include = "src"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-dotenv = "^1.0.1"
+python-telegram-bot = "^21.3"
+requests = "^2.32.3"
+selenium = "^4.21.0"
+types-requests = "^2.32.0.20240602"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+
+[tool.autopep8]
+max-line-length = 120
+indent-size = 2
+ignore = ["E121"]
+
+[tool.isort]
+line_length = 120
+src_paths = ["src"]
+lines_between_types = 1
+lines_after_imports = 2
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

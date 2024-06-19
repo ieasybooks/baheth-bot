@@ -1,4 +1,0 @@
-python-dotenv
-python-telegram-bot
-requests
-youtube-transcript-api
