@@ -1,0 +1,21 @@
+name: Formatter
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Run Formatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: isort formatter
+        uses: isort/isort-action@v1
+        with:
+          configuration: "--src src --line-length 120 --lines-between-types 1 --lines-after-imports 2 --check-only --diff"
