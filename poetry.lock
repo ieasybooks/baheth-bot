@@ -237,18 +237,18 @@ files = [
 
 [[package]]
 name = "filelock"
-version = "3.15.1"
+version = "3.15.4"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "filelock-3.15.1-py3-none-any.whl", hash = "sha256:71b3102950e91dfc1bb4209b64be4dc8854f40e5f534428d8684f953ac847fac"},
-    {file = "filelock-3.15.1.tar.gz", hash = "sha256:58a2549afdf9e02e10720eaa4d4470f56386d7a6f72edd7d0596337af8ed7ad8"},
+    {file = "filelock-3.15.4-py3-none-any.whl", hash = "sha256:6ca1fffae96225dab4c6eaf1c4f4f28cd2568d3ec2a44e15a08520504de468e7"},
+    {file = "filelock-3.15.4.tar.gz", hash = "sha256:2207938cbc1844345cb01a5a95524dae30f0ce089eba5b00378295a17e3e90cb"},
 ]
 
 [package.extras]
 docs = ["furo (>=2023.9.10)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
-testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", "pytest (>=7.4.3)", "pytest-asyncio (>=0.21)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", "pytest (>=7.4.3)", "pytest-asyncio (>=0.21)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)", "virtualenv (>=20.26.2)"]
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
@@ -536,13 +536,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selenium"
-version = "4.21.0"
-description = ""
+version = "4.22.0"
+description = "Official Python bindings for Selenium WebDriver"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "selenium-4.21.0-py3-none-any.whl", hash = "sha256:4770ffe5a5264e609de7dc914be6b89987512040d5a8efb2abb181330d097993"},
-    {file = "selenium-4.21.0.tar.gz", hash = "sha256:650dbfa5159895ff00ad16e5ddb6ceecb86b90c7ed2012b3f041f64e6e4904fe"},
+    {file = "selenium-4.22.0-py3-none-any.whl", hash = "sha256:e424991196e9857e19bf04fe5c1c0a4aac076794ff5e74615b1124e729d93104"},
+    {file = "selenium-4.22.0.tar.gz", hash = "sha256:903c8c9d61b3eea6fcc9809dc7d9377e04e2ac87709876542cc8f863e482c4ce"},
 ]
 
 [package.dependencies]
@@ -551,6 +551,7 @@ trio = ">=0.17,<1.0"
 trio-websocket = ">=0.9,<1.0"
 typing_extensions = ">=4.9.0"
 urllib3 = {version = ">=1.26,<3", extras = ["socks"]}
+websocket-client = ">=1.8.0"
 
 [[package]]
 name = "sniffio"
@@ -610,13 +611,13 @@ wsproto = ">=0.14"
 
 [[package]]
 name = "types-requests"
-version = "2.32.0.20240602"
+version = "2.32.0.20240622"
 description = "Typing stubs for requests"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "types-requests-2.32.0.20240602.tar.gz", hash = "sha256:3f98d7bbd0dd94ebd10ff43a7fbe20c3b8528acace6d8efafef0b6a184793f06"},
-    {file = "types_requests-2.32.0.20240602-py3-none-any.whl", hash = "sha256:ed3946063ea9fbc6b5fc0c44fa279188bae42d582cb63760be6cb4b9d06c3de8"},
+    {file = "types-requests-2.32.0.20240622.tar.gz", hash = "sha256:ed5e8a412fcc39159d6319385c009d642845f250c63902718f605cd90faade31"},
+    {file = "types_requests-2.32.0.20240622-py3-none-any.whl", hash = "sha256:97bac6b54b5bd4cf91d407e62f0932a74821bc2211f22116d9ee1dd643826caf"},
 ]
 
 [package.dependencies]
@@ -655,13 +656,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "virtualenv"
-version = "20.26.2"
+version = "20.26.3"
 description = "Virtual Python Environment builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.26.2-py3-none-any.whl", hash = "sha256:a624db5e94f01ad993d476b9ee5346fdf7b9de43ccaee0e0197012dc838a0e9b"},
-    {file = "virtualenv-20.26.2.tar.gz", hash = "sha256:82bf0f4eebbb78d36ddaee0283d43fe5736b53880b8a8cdcd37390a07ac3741c"},
+    {file = "virtualenv-20.26.3-py3-none-any.whl", hash = "sha256:8cc4a31139e796e9a7de2cd5cf2489de1217193116a8fd42328f1bd65f434589"},
+    {file = "virtualenv-20.26.3.tar.gz", hash = "sha256:4c43a2a236279d9ea36a0d76f98d84bd6ca94ac4e0f4a3b9d46d05e10fea542a"},
 ]
 
 [package.dependencies]
@@ -672,6 +673,22 @@ platformdirs = ">=3.9.1,<5"
 [package.extras]
 docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.2,!=7.3)", "sphinx-argparse (>=0.4)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=23.6)"]
 test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.4)", "pytest-env (>=0.8.2)", "pytest-freezer (>=0.4.8)", "pytest-mock (>=3.11.1)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=68)", "time-machine (>=2.10)"]
+
+[[package]]
+name = "websocket-client"
+version = "1.8.0"
+description = "WebSocket client for Python with low level API options"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "websocket_client-1.8.0-py3-none-any.whl", hash = "sha256:17b44cc997f5c498e809b22cdf2d9c7a9e71c02c8cc2b6c56e7c2d1239bfa526"},
+    {file = "websocket_client-1.8.0.tar.gz", hash = "sha256:3239df9f44da632f96012472805d40a23281a991027ce11d2f45a6f24ac4c3da"},
+]
+
+[package.extras]
+docs = ["Sphinx (>=6.0)", "myst-parser (>=2.0.0)", "sphinx-rtd-theme (>=1.1.0)"]
+optional = ["python-socks", "wsaccel"]
+test = ["websockets"]
 
 [[package]]
 name = "wsproto"
@@ -689,5 +706,5 @@ h11 = ">=0.9.0,<1"
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "cbb17d8dcaa5a3e78a2fa4c2703f290d203262d48a66a37fbd80049ae5054dca"
+python-versions = ">3.11"
+content-hash = "ffad18ae0e56df120a6ef55a2d6c857e54c26749c2b65e141ddd8debf0a30c41"
