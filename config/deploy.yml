@@ -11,7 +11,7 @@ registry:
 servers:
   web:
     hosts:
-      - 109.199.123.26
+      - 54.247.196.28
     options:
       network: "kamal_network"
 
@@ -37,7 +37,10 @@ env:
 healthcheck:
   cmd: echo "I'm ok"
 
+ssh:
+  user: ubuntu
+
 builder:
   remote:
     arch: amd64
-    host: ssh://root@109.199.123.26
+    host: ssh://ubuntu@54.247.196.28
