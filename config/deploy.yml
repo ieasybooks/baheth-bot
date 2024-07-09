@@ -23,6 +23,7 @@ traefik:
 env:
   secret:
     - TELEGRAM_BOT_TOKEN
+    - ADMIN_USER_IDS
 
     - BAHETH_API_BASE_URL
     - MEDIA_ENDPOINT
