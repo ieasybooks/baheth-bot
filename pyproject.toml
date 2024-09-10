@@ -15,7 +15,7 @@ python-dotenv = "^1.0.1"
 python-telegram-bot = "^21.3"
 requests = "^2.32.3"
 selenium = "^4.21.0"
-types-requests = "^2.32.0.20240602"
+types-requests = "^2.32.0.20240907"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"
