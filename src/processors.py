@@ -43,7 +43,7 @@ async def tafrigh_processor(update: Update) -> bool:
         # '، '.join([speaker['name'] for speaker in response_json['speakers']]),
         # response_json['playlist']['title'],
         response_json['link'],
-        response_json['transcription_link'],
+        response_json['transcription_pdf_link'],
       ),
     )
   else:
