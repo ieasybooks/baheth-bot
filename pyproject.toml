@@ -12,13 +12,13 @@ packages = [
 [tool.poetry.dependencies]
 python = ">3.11"
 python-dotenv = "^1.0.1"
-python-telegram-bot = "^21.3"
+python-telegram-bot = "^21.7"
 requests = "^2.32.3"
-selenium = "^4.21.0"
-types-requests = "^2.32.0.20240602"
+selenium = "^4.26.1"
+types-requests = "^2.32.0.20241016"
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^3.7.1"
+pre-commit = "^4.0.1"
 
 [tool.autopep8]
 max-line-length = 120
