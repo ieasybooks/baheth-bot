@@ -12,7 +12,7 @@ packages = [
 [tool.poetry.dependencies]
 python = ">3.11"
 python-dotenv = "^1.0.1"
-python-telegram-bot = "^21.7"
+python-telegram-bot = "^21.9"
 requests = "^2.32.3"
 selenium = "^4.26.1"
 types-requests = "^2.32.0.20241016"
