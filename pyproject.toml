@@ -18,7 +18,7 @@ selenium = "^4.26.1"
 types-requests = "^2.32.0.20241016"
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^4.0.1"
+pre-commit = "^4.1.0"
 
 [tool.autopep8]
 max-line-length = 120
