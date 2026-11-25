@@ -1,4 +1,4 @@
-FROM python:3.12.6 AS requirements-stage
+FROM python:3.15.1 AS requirements-stage
 
 WORKDIR /tmp
 # The version that wrote poetry.lock. Poetry 2 no longer ships `poetry export`.
@@ -6,7 +6,7 @@ RUN pip install poetry==1.8.4
 COPY ./pyproject.toml ./poetry.lock* /tmp/
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-FROM python:3.12.6-slim
+FROM python:3.15.1-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
