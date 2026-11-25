@@ -8,18 +8,16 @@ registry:
   password:
     - KAMAL_REGISTRY_PASSWORD
 
+# ieasy-books-vm, a GCP VM shared with baheth and makhzan. Kamal reaches its
+# SSH port through an IAP tunnel, so deploys need a gcloud login that may open
+# one (the Deploy workflow signs in as kamal-deploy) and ubuntu's key.
 servers:
   web:
     hosts:
-      - 54.247.196.28
-    options:
-      network: "kamal_network"
+      - ieasy-books-vm
+    # The bot polls Telegram and serves nothing, so it has no proxy route.
+    proxy: false
 
-traefik:
-  options:
-    network: "kamal_network"
-
-# Remember to run `kamal env push` after making changes!
 env:
   secret:
     - TELEGRAM_BOT_TOKEN
@@ -35,13 +33,11 @@ env:
     - TURATH_API_BASE_URL
     - SHAMELA_CLASSICAL_SEARCH_ENDPOINT
 
-healthcheck:
-  cmd: echo "I'm ok"
-
 ssh:
   user: ubuntu
+  proxy_command: gcloud compute start-iap-tunnel %h %p --listen-on-stdin --zone europe-west1-b --project earnest-reactor-514916-n4
 
+# The VM is ARM, and so is the Deploy workflow's runner, so the image is built
+# there.
 builder:
-  remote:
-    arch: amd64
-    host: ssh://ubuntu@54.247.196.28
+  arch: arm64

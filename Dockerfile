@@ -1,7 +1,8 @@
 FROM python:3.12.6 AS requirements-stage
 
 WORKDIR /tmp
-RUN pip install poetry
+# The version that wrote poetry.lock. Poetry 2 no longer ships `poetry export`.
+RUN pip install poetry==1.8.4
 COPY ./pyproject.toml ./poetry.lock* /tmp/
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
@@ -9,26 +10,13 @@ FROM python:3.12.6-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Debian's Chromium and its driver, since Google builds Chrome for Linux only for
+# x86 and the server is ARM. The driver is installed at /usr/bin/chromedriver,
+# where src/processors.py looks for it.
 RUN apt-get update \
-    && apt-get install -y gnupg curl wget unzip --no-install-recommends \
+    && apt-get install -y chromium chromium-driver --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/google.gpg --import \
-    && chmod 644 /etc/apt/trusted.gpg.d/google.gpg \
-    && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN CHROMEDRIVER_VERSION=$(curl https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE) \
-    && wget -N https://storage.googleapis.com/chrome-for-testing-public/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip -P ~/ \
-    && unzip ~/chromedriver-linux64.zip -d ~/ \
-    && rm ~/chromedriver-linux64.zip \
-    && mv -f ~/chromedriver-linux64/chromedriver /usr/bin/chromedriver \
-    && rm -rf ~/chromedriver-linux64 \
-    && chmod +x /usr/bin/chromedriver
 
 WORKDIR /code
 

@@ -1,0 +1,79 @@
+name: Deploy
+run-name: "Deploy · ${{ inputs.setup && 'kamal setup' || 'kamal deploy' }} · ${{ github.ref_name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      setup:
+        description: Run `kamal setup` instead of `kamal deploy`, to install Docker and kamal-proxy on a new server
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # ARM, like the VM, so the image builds natively.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write # sign in to GCP and to the vault
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+
+      # The apps on the VM share one kamal-proxy, so they all deploy with the
+      # same Kamal version.
+      - name: Install Kamal
+        run: gem install kamal --version 2.12.0 --no-document
+
+      # kamal-deploy may only open IAP tunnels to the VM's SSH port.
+      - name: Sign in to GCP
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: projects/27608930161/locations/global/workloadIdentityPools/github/providers/github
+          service_account: kamal-deploy@earnest-reactor-514916-n4.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v3
+
+      # The vault serves ubuntu's key to this workflow in runs AliOsm starts
+      # (infrastructure: cloudflare/vault-secrets.tf, baheth-bot.deploy).
+      - name: Fetch ubuntu's SSH key
+        uses: ieasybooks/vault@1bce5652d3d2461b0c6d590c3358d8c877fe61c8 # v1.1.0
+        with:
+          secrets: GCP_VM_1_SSH_KEY
+
+      - name: Load ubuntu's SSH key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ env.GCP_VM_1_SSH_KEY }}
+
+      # The bot's settings are set on this step only, so the actions above
+      # don't see them.
+      - name: Deploy
+        run: kamal ${{ inputs.setup && 'setup' || 'deploy' }}
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ADMIN_USER_IDS: ${{ secrets.ADMIN_USER_IDS }}
+          BAHETH_API_BASE_URL: ${{ secrets.BAHETH_API_BASE_URL }}
+          MEDIA_ENDPOINT: ${{ secrets.MEDIA_ENDPOINT }}
+          TRANSCRIPTIONS_SEARCH_ENDPOINT: ${{ secrets.TRANSCRIPTIONS_SEARCH_ENDPOINT }}
+          HADITHS_SEARCH_ENDPOINT: ${{ secrets.HADITHS_SEARCH_ENDPOINT }}
+          SHAMELA_SEMANTIC_SEARCH_ENDPOINT: ${{ secrets.SHAMELA_SEMANTIC_SEARCH_ENDPOINT }}
+          BAHETH_API_TOKEN: ${{ secrets.BAHETH_API_TOKEN }}
+          TURATH_API_BASE_URL: ${{ secrets.TURATH_API_BASE_URL }}
+          SHAMELA_CLASSICAL_SEARCH_ENDPOINT: ${{ secrets.SHAMELA_CLASSICAL_SEARCH_ENDPOINT }}
