@@ -58,6 +58,8 @@ async def transcriptions_processor(context: ContextTypes.DEFAULT_TYPE, reply_met
     params={
       'token': BAHETH_API_TOKEN,
       'query': context.user_data['message'],
+      # Without these, the medium, playlist and speakers come back as API URLs only.
+      'expand[]': ['medium', 'playlist', 'speakers'],
     },
     timeout=10,
   )
@@ -67,22 +69,23 @@ async def transcriptions_processor(context: ContextTypes.DEFAULT_TYPE, reply_met
 
     response_json = response.json()
 
-    for result in response_json['classical_search_results'][results_start:results_start + RESULTS_LIMIT]:
+    for result in response_json['results'][results_start:results_start + RESULTS_LIMIT]:
       await reply_method(
         text=REPLY_TEMPLATES['transcriptions'].format(
           result['medium']['title'],
           '، '.join([speaker['name'] for speaker in result['speakers']]),
           result['playlist']['title'],
-          result['content'],
-          "{:0>8}".format(str(timedelta(seconds=result['start_time']))),
-          "{:0>8}".format(str(timedelta(seconds=result['end_time']))),
-          result['link'],
+          result['cue']['content'],
+          "{:0>8}".format(str(timedelta(seconds=result['cue']['start_time']))),
+          "{:0>8}".format(str(timedelta(seconds=result['cue']['end_time']))),
+          # The API doesn't give the cue's ID anymore, so this links to the medium's page, not to the cue.
+          result['medium']['link'],
         ),
         disable_web_page_preview=True,
         parse_mode='HTML',
       )
 
-    return results_start + RESULTS_LIMIT < len(response_json['classical_search_results'])
+    return results_start + RESULTS_LIMIT < len(response_json['results'])
 
   await reply_method(COMMAND_MESSAGES['something_went_wrong'])
 
